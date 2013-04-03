@@ -1,10 +1,10 @@
-#include <QApplication>
+#include <QGuiApplication>
 
 #include "MainWindow.hh"
 
 int main( int argc, char* argv[] )
 {
-  QApplication application( argc, argv );
+  QGuiApplication application( argc, argv );
 
   // Initialization ----------------------------------------------------
 

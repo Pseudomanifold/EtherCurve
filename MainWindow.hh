@@ -20,7 +20,6 @@ private slots:
                     const uchar* packetData );
 
 private:
-
   PCAPWrapper* _pcapWrapper;
 };
 
