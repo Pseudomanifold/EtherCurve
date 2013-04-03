@@ -7,17 +7,29 @@ SET( CMAKE_MODULE_PATH
 )
 
 FIND_PACKAGE( PCAP REQUIRED )
+FIND_PACKAGE( Qt4 REQUIRED QtCore QtGui )
+
+INCLUDE( ${QT_USE_FILE} )
+
+QT4_WRAP_CPP(
+  HEADERS_MOC
+  MainWindow.hh
+  PCAPWrapper.hh )
 
 IF( CMAKE_COMPILER_IS_GNUCXX )
-  SET( CMAKE_CXX_FLAGS "-Werror -Wall -pedantic-errors" )
+  SET( CMAKE_CXX_FLAGS "-Wall -pedantic" )
 ENDIF()
 
 ADD_EXECUTABLE(
   ethervis
   EtherVis.cc
+  MainWindow.cc
+  PCAPWrapper.cc
+  ${HEADERS_MOC}
 )
 
 TARGET_LINK_LIBRARIES(
   ethervis
   ${PCAP_LIBRARIES}
+  ${QT_LIBRARIES}
 )
