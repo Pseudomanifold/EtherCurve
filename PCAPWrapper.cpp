@@ -1,4 +1,4 @@
-#include "PCAPWrapper.hh"
+#include "PCAPWrapper.h"
 
 #include <iostream>
 

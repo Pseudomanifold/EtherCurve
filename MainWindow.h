@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include "PCAPWrapper.hh"
+#include "PCAPWrapper.h"
 
 class MainWindow : public QMainWindow
 {

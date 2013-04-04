@@ -1,6 +1,6 @@
 #include <QGuiApplication>
 
-#include "MainWindow.hh"
+#include "MainWindow.h"
 
 int main( int argc, char* argv[] )
 {

@@ -17,9 +17,9 @@ FIND_PACKAGE( Qt5Widgets REQUIRED )
 FIND_PACKAGE( PCAP REQUIRED )
 
 SET( SOURCES
-  EtherVis.cc
-  MainWindow.cc
-  PCAPWrapper.cc
+  EtherVis.cpp
+  MainWindow.cpp
+  PCAPWrapper.cpp
 )
 
 ADD_EXECUTABLE( ethervis ${SOURCES} )
