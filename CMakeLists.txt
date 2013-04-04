@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED( VERSION 2.8.9 )
 PROJECT( EtherVis )
 
 IF( CMAKE_COMPILER_IS_GNUCXX )
-  SET( CMAKE_CXX_FLAGS "-Wall -pedantic" )
+  SET( CMAKE_CXX_FLAGS "-Werror -Wall -pedantic -std=c++0x" )
 ENDIF()
 
 SET( CMAKE_MODULE_PATH
