@@ -1,7 +1,5 @@
 #include "PCAPWrapper.h"
 
-#include <iostream>
-
 // ---------------------------------------------------------------------
 
 PCAPWrapper::PCAPWrapper( QObject* parent )
