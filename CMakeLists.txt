@@ -19,6 +19,7 @@ FIND_PACKAGE( PCAP REQUIRED )
 SET( SOURCES
   EtherVis.cpp
   MainWindow.cpp
+  PacketRenderer.cpp
   PCAPWrapper.cpp
 )
 

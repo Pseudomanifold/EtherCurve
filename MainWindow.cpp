@@ -9,6 +9,14 @@ MainWindow::MainWindow( QWidget* parent,
   : QMainWindow( parent,
                  flags )
 {
+  // TODO: Make configurable
+  _width  = 800;
+  _height = 600;
+
+  _packetRenderer = new PacketRenderer( this );
+  _packetRenderer->setPacketWidth( _width / 64.f  );
+  _packetRenderer->setPacketHeight( _height / 64.f );
+
   _pcapWrapper = new PCAPWrapper( this );
   _pcapWrapper->open();
 
@@ -20,12 +28,10 @@ MainWindow::MainWindow( QWidget* parent,
   _graphicsScene = new QGraphicsScene( this );
   _graphicsView  = new QGraphicsView( _graphicsScene, this );
 
+  _graphicsView->setBackgroundBrush( Qt::black);
   _graphicsView->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
   _graphicsView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-
-  // TODO: Make configurable
-  _width  = 800;
-  _height = 600;
+  _graphicsView->setFrameShape( QFrame::NoFrame );
 
   this->setMinimumSize( _width, _height );
   this->setMaximumSize( _width, _height );
@@ -59,27 +65,21 @@ void MainWindow::onNewPacket( const pcap_pkthdr* packetHeader,
   this->mapToCurve( _currentIndex,
                     x, y );
 
-  QGraphicsItem* item =_graphicsScene->itemAt( x + 0.5  *_width  / 64.0,
-                                               y + 0.5 * _height / 64.0,
-                                               QTransform() );
+  QGraphicsItem* renderedPacket = _packetRenderer->render( x, y,
+                                                           packetHeader,
+                                                           packetData );
+
+  // Remove existing items ---------------------------------------------
+
+  QGraphicsItem* item = _graphicsScene->itemAt( renderedPacket->boundingRect().center(),
+                                                QTransform() );
 
   if( item )
     _graphicsScene->removeItem( item );
 
-  // Assign a colour based on the length of the packet
+  // Update scene ------------------------------------------------------
 
-  int intensity = static_cast<int>( 255 * packetHeader->len / 1000.0 );
-  if( intensity > 255 )
-    intensity = 255;
-
-  QColor packetColour( 255 - intensity,
-                       255 - intensity,
-                       255 - intensity );
-
-  _graphicsScene->addRect( x, y,
-                           _width / 64.0, _height / 64.0,
-                           QPen( Qt::NoPen ),
-                           QBrush( packetColour ) );
+  _graphicsScene->addItem( renderedPacket );
 
   _currentIndex++;
   _currentIndex = _currentIndex % _coordinates.size();

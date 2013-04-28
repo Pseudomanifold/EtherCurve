@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "PacketRenderer.h"
 #include "PCAPWrapper.h"
 
 class MainWindow : public QMainWindow
@@ -25,6 +26,7 @@ private slots:
                     const uchar* packetData );
 
 private:
+  PacketRenderer* _packetRenderer;
   PCAPWrapper* _pcapWrapper;
 
   QGraphicsScene* _graphicsScene;
