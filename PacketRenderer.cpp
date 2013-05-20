@@ -68,6 +68,13 @@ void PacketRenderer::setPacketHeight( float height )
 
 // ---------------------------------------------------------------------
 
+void PacketRenderer::setMTU( int mtu )
+{
+  _mtu = mtu;
+}
+
+// ---------------------------------------------------------------------
+
 QGraphicsItem* PacketRenderer::render( qreal x, qreal y,
                                        const pcap_pkthdr* packetHeader,
                                        const uchar* packetData ) const
@@ -93,8 +100,7 @@ QGraphicsItem* PacketRenderer::render( qreal x, qreal y,
     break;
   }
 
-  // TODO: Find out MTU
-  float relativeLength = packetHeader->len / 1500.0f;
+  float relativeLength = packetHeader->len / static_cast<float>( _mtu );
   relativeLength       = relativeLength > 1.0f ? 1.0f : relativeLength;
 
   QColor packetColour = this->getColour( relativeLength );

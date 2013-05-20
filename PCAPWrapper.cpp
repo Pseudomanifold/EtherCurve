@@ -1,5 +1,13 @@
 #include "PCAPWrapper.h"
 
+#include <cstring>
+
+#include <net/if.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+
+#include <unistd.h>
+
 // ---------------------------------------------------------------------
 
 PCAPWrapper::PCAPWrapper( QObject* parent )
@@ -59,6 +67,35 @@ void PCAPWrapper::close()
     pcap_close( _pcapHandle );
 
   _pcapHandle = 0;
+}
+
+// ---------------------------------------------------------------------
+
+int PCAPWrapper::getMTU( const QString& deviceName )
+{
+  if( deviceName.isEmpty() )
+    return( -1 );
+
+  QByteArray byteArray = deviceName.toLocal8Bit();
+  const char* device   = byteArray.data();
+
+  ifreq interfaceRequest;
+
+  memset( &interfaceRequest, 0, sizeof( ifreq ) );
+
+  // Prepare for lookup
+  strncpy( interfaceRequest.ifr_name,
+           device,
+           sizeof( interfaceRequest.ifr_name) );
+
+  int fd = socket( AF_INET, SOCK_DGRAM, 0 );
+
+  if( ioctl( fd, SIOCGIFMTU, &interfaceRequest ) == -1 )
+    return( -1 );
+
+  ::close( fd );
+
+  return( interfaceRequest.ifr_mtu );
 }
 
 // ---------------------------------------------------------------------

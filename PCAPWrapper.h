@@ -23,6 +23,13 @@ public:
   void open( const QString& deviceName );
   void close();
 
+  /**
+    @param device Device name
+    @returns MTU of current device or -1 in case of errors
+  */
+
+  static int getMTU( const QString& deviceName );
+
 signals:
 
   void newPacket();

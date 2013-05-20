@@ -19,6 +19,8 @@ public:
   void setPacketWidth( float width );
   void setPacketHeight( float height );
 
+  void setMTU( int mtu );
+
   QGraphicsItem* render( qreal x, qreal y,
                          const pcap_pkthdr* packetHeader,
                          const uchar* packetData ) const;
@@ -27,6 +29,8 @@ private:
 
   float _packetWidth;
   float _packetHeight;
+
+  int _mtu;
 
   QColor getColour( float value ) const;
   QMap<float, QColor> _colourMap;

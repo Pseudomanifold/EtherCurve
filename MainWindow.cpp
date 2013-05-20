@@ -10,12 +10,13 @@ MainWindow::MainWindow( const QString& deviceName )
   _width  = 800;
   _height = 600;
 
+  _pcapWrapper = new PCAPWrapper( this );
+  _pcapWrapper->open( deviceName );
+
   _packetRenderer = new PacketRenderer( this );
   _packetRenderer->setPacketWidth( _width / 64.f  );
   _packetRenderer->setPacketHeight( _height / 64.f );
-
-  _pcapWrapper = new PCAPWrapper( this );
-  _pcapWrapper->open( deviceName );
+  _packetRenderer->setMTU( _pcapWrapper->getMTU( deviceName ) );
 
   QObject::connect( _pcapWrapper,
                     SIGNAL( newPacket( const pcap_pkthdr*, const uchar* ) ),
