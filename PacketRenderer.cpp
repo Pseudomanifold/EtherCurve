@@ -5,6 +5,14 @@
 #include <QPen>
 #include <QStringList>
 
+#include <QDebug>
+
+#include <netinet/in.h>
+#include <netinet/ip.h>
+#include <netinet/tcp.h>
+#include <netinet/udp.h>
+#include <net/ethernet.h>
+
 // ---------------------------------------------------------------------
 
 PacketRenderer::PacketRenderer( QObject* parent )
@@ -64,6 +72,27 @@ QGraphicsItem* PacketRenderer::render( qreal x, qreal y,
                                        const pcap_pkthdr* packetHeader,
                                        const uchar* packetData ) const
 {
+  const ether_header* ethernetHeader = reinterpret_cast<const ether_header*>( packetData );
+  if( ntohs( ethernetHeader->ether_type ) != ETHERTYPE_IP )
+    return( 0 );
+
+  const iphdr* ipHeader = reinterpret_cast<const iphdr*>( packetData + sizeof( ether_header ) );
+  switch( ipHeader->protocol )
+  {
+  case IPPROTO_TCP:
+    qDebug() << "TCP";
+    break;
+  case IPPROTO_UDP:
+    qDebug() << "UDP";
+    break;
+  case IPPROTO_ICMP:
+    qDebug() << "ICMP";
+    break;
+  default:
+    qDebug() << "Unknown: " << ipHeader->protocol;
+    break;
+  }
+
   // TODO: Find out MTU
   float relativeLength = packetHeader->len / 1500.0f;
   relativeLength       = relativeLength > 1.0f ? 1.0f : relativeLength;

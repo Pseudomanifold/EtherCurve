@@ -69,6 +69,10 @@ void MainWindow::onNewPacket( const pcap_pkthdr* packetHeader,
                                                            packetHeader,
                                                            packetData );
 
+  // Let's ignore packets we cannot render.
+  if( !renderedPacket )
+    return;
+
   // Remove existing items ---------------------------------------------
 
   QGraphicsItem* item = _graphicsScene->itemAt( renderedPacket->boundingRect().center(),
