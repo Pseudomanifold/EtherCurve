@@ -19,7 +19,7 @@ PCAPWrapper::~PCAPWrapper()
 
 // ---------------------------------------------------------------------
 
-void PCAPWrapper::open()
+void PCAPWrapper::open( const QString& deviceName )
 {
   if( _pcapHandle )
   {
@@ -27,9 +27,10 @@ void PCAPWrapper::open()
     return;
   }
 
-  const char* device = "wlan0";
+  QByteArray byteArray = deviceName.toLocal8Bit();
+  const char* device   = byteArray.data();
 
-  _pcapHandle = pcap_open_live( device, // TODO: Make configurable
+  _pcapHandle = pcap_open_live( device,
                                 BUFSIZ,
                                 0,      // TODO: Make configurable
                                 -1,

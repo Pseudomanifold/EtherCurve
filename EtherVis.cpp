@@ -21,7 +21,7 @@ int main( int argc, char* argv[] )
 
   // Initialization ----------------------------------------------------
 
-  MainWindow mainWindow;
+  MainWindow mainWindow( selectedDeviceName );
   mainWindow.show();
 
   return( application.exec() );

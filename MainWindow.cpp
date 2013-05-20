@@ -4,10 +4,7 @@
 
 // ---------------------------------------------------------------------
 
-MainWindow::MainWindow( QWidget* parent,
-                        Qt::WindowFlags flags )
-  : QMainWindow( parent,
-                 flags )
+MainWindow::MainWindow( const QString& deviceName )
 {
   // TODO: Make configurable
   _width  = 800;
@@ -18,7 +15,7 @@ MainWindow::MainWindow( QWidget* parent,
   _packetRenderer->setPacketHeight( _height / 64.f );
 
   _pcapWrapper = new PCAPWrapper( this );
-  _pcapWrapper->open();
+  _pcapWrapper->open( deviceName );
 
   QObject::connect( _pcapWrapper,
                     SIGNAL( newPacket( const pcap_pkthdr*, const uchar* ) ),

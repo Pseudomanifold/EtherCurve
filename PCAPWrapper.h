@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSocketNotifier>
+#include <QString>
 
 #include <pcap/pcap.h>
 
@@ -19,7 +20,7 @@ public:
   PCAPWrapper( QObject* parent = 0);
   virtual ~PCAPWrapper();
 
-  void open();
+  void open( const QString& deviceName );
   void close();
 
 signals:
