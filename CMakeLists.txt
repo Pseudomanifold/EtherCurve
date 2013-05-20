@@ -17,6 +17,7 @@ FIND_PACKAGE( Qt5Widgets REQUIRED )
 FIND_PACKAGE( PCAP REQUIRED )
 
 SET( SOURCES
+  DeviceList.cpp
   EtherVis.cpp
   MainWindow.cpp
   PacketRenderer.cpp
