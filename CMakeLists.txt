@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED( VERSION 2.8.9 )
-PROJECT( EtherVis )
+PROJECT( EtherCurve )
 
 IF( CMAKE_COMPILER_IS_GNUCXX )
   SET( CMAKE_CXX_FLAGS "-Werror -Wall -pedantic -std=c++0x" )
@@ -10,7 +10,6 @@ SET( CMAKE_MODULE_PATH
   ${CMAKE_SOURCE_DIR}
 )
 
-SET( CMAKE_INCLUDE_CURRENT_DIR ON )
 SET( CMAKE_AUTOMOC ON )
 
 FIND_PACKAGE( Qt5Widgets REQUIRED )
@@ -18,19 +17,19 @@ FIND_PACKAGE( PCAP REQUIRED )
 
 SET( SOURCES
   DeviceList.cpp
-  EtherVis.cpp
+  EtherCurve.cpp
   MainWindow.cpp
   PacketRenderer.cpp
   PCAPWrapper.cpp
 )
 
-ADD_EXECUTABLE( ethervis ${SOURCES} )
+ADD_EXECUTABLE( ethercurve ${SOURCES} )
 
-QT5_USE_MODULES( ethervis Core )
-QT5_USE_MODULES( ethervis Gui )
-QT5_USE_MODULES( ethervis Widgets )
+QT5_USE_MODULES( ethercurve Core )
+QT5_USE_MODULES( ethercurve Gui )
+QT5_USE_MODULES( ethercurve Widgets )
 
 TARGET_LINK_LIBRARIES(
-  ethervis
+  ethercurve
   ${PCAP_LIBRARIES}
 )
