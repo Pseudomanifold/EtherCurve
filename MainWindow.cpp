@@ -1,7 +1,5 @@
 #include "MainWindow.h"
 
-#include <iostream>
-
 // ---------------------------------------------------------------------
 
 MainWindow::MainWindow( const QString& deviceName )
