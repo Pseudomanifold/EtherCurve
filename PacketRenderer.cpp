@@ -26,6 +26,9 @@ PacketRenderer::PacketRenderer( const QString& colourFile,
   QFile input( colourFile );
   input.open( QFile::ReadOnly );
 
+  if( !input.isReadable() )
+    qFatal( "Colour file is required" );
+
   QString glob      = input.readAll();
   QStringList lines = glob.split( "\n" );
 
@@ -35,7 +38,10 @@ PacketRenderer::PacketRenderer( const QString& colourFile,
 
     // Sanity check
     if( tokens.size() != 3 )
+    {
+      qFatal( "Invalid colour file format" );
       break;
+    }
 
     float r     = tokens[0].toInt();
     float g     = tokens[1].toInt();
