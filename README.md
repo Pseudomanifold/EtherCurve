@@ -8,8 +8,8 @@ easily be customized.
 
 ## Requirements
 
-* `cmake` >= 2.8.9
-* `Qt` >= 5.2
+* `cmake` >= 2.8.9 (for building the program)
+* `Qt` >= 5.2 (for rendering)
 * `libpcap` >= 1.3.0 (older versions should work as well because I am
   not doing anything special here)
 
