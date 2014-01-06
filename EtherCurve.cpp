@@ -14,8 +14,8 @@ int main( int argc, char* argv[] )
   // Parse command-line options ----------------------------------------
 
   QCommandLineOption colourFileOption( QStringList() << "c" << "colour-file",
-                                       "File to load packet colours from",
-                                       "Qualitative1.csv" );
+                                       "File to load packet colours from" );
+  colourFileOption.setDefaultValue( "Qualitative1.csv" );
 
   QCommandLineOption logscalingOption( QStringList() << "l" << "log-scale",
                                        "Use logarithmic scaling for packet sizes" );
