@@ -3,8 +3,9 @@
 
 #include <QColor>
 #include <QGraphicsItem>
-#include <QObject>
 #include <QList>
+#include <QObject>
+#include <QString>
 
 #include <pcap/pcap.h>
 
@@ -13,7 +14,10 @@ class PacketRenderer : public QObject
   Q_OBJECT
 
 public:
-  PacketRenderer( QObject* parent = 0);
+  PacketRenderer( const QString& colourFile,
+                  bool useLogScaling,
+                  QObject* parent = 0 );
+
   virtual ~PacketRenderer();
 
   void setPacketWidth( float width );
@@ -26,6 +30,8 @@ public:
                          const uchar* packetData ) const;
 
 private:
+
+  bool _useLogScaling;
 
   float _packetWidth;
   float _packetHeight;

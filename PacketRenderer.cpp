@@ -15,12 +15,15 @@
 
 // ---------------------------------------------------------------------
 
-PacketRenderer::PacketRenderer( QObject* parent )
+PacketRenderer::PacketRenderer( const QString& colourFile,
+                                bool useLogScaling,
+                                QObject* parent )
   : QObject( parent ),
+    _useLogScaling( useLogScaling ),
     _packetWidth( 0.f ),
     _packetHeight( 0.f )
 {
-  QFile input( "../Qualitative1.csv" );
+  QFile input( colourFile );
   input.open( QFile::ReadOnly );
 
   QString glob      = input.readAll();
@@ -100,8 +103,15 @@ QGraphicsItem* PacketRenderer::render( qreal x, qreal y,
     break;
   }
 
-  float relativeLength = packetHeader->len / static_cast<float>( _mtu );
-  relativeLength       = relativeLength > 1.0f  ? 1.0f  : relativeLength;
+  float relativeLength = 0.f;
+
+  if( _useLogScaling )
+    relativeLength = std::log( packetHeader->len ) / std::log( _mtu );
+  else
+    relativeLength = packetHeader->len / static_cast<float>( _mtu );
+
+  // Clamp to [0,1]. Else the packets will overlap in the graphics scene.
+  relativeLength = relativeLength > 1.0f  ? 1.0f  : relativeLength;
 
   float width  = _packetWidth  * relativeLength;
   float height = _packetHeight * relativeLength;

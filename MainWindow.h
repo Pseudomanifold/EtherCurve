@@ -16,7 +16,9 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  MainWindow( const QString& deviceName );
+  MainWindow( const QString& deviceName,
+              const QString& colourFile,
+              bool useLogScaling );
 
   virtual ~MainWindow();
 

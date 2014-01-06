@@ -2,7 +2,9 @@
 
 // ---------------------------------------------------------------------
 
-MainWindow::MainWindow( const QString& deviceName )
+MainWindow::MainWindow( const QString& deviceName,
+                        const QString& colourFile,
+                        bool useLogScaling )
 {
   // TODO: Make configurable
   _width  = 512;
@@ -11,7 +13,10 @@ MainWindow::MainWindow( const QString& deviceName )
   _pcapWrapper = new PCAPWrapper( this );
   _pcapWrapper->open( deviceName );
 
-  _packetRenderer = new PacketRenderer( this );
+  _packetRenderer = new PacketRenderer( colourFile,
+                                        useLogScaling,
+                                        this );
+
   _packetRenderer->setPacketWidth( _width / 64.f  );
   _packetRenderer->setPacketHeight( _height / 64.f );
   _packetRenderer->setMTU( _pcapWrapper->getMTU( deviceName ) );
