@@ -30,6 +30,7 @@ MainWindow::MainWindow( const QString& deviceName )
   _graphicsView->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
   _graphicsView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
   _graphicsView->setFrameShape( QFrame::NoFrame );
+  _graphicsView->setAlignment( Qt::AlignLeft | Qt::AlignTop );
 
   this->setMinimumSize( _width, _height );
   this->setMaximumSize( _width, _height );
