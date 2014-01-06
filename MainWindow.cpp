@@ -7,8 +7,8 @@
 MainWindow::MainWindow( const QString& deviceName )
 {
   // TODO: Make configurable
-  _width  = 800;
-  _height = 600;
+  _width  = 512;
+  _height = 512;
 
   _pcapWrapper = new PCAPWrapper( this );
   _pcapWrapper->open( deviceName );

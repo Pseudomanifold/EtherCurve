@@ -101,12 +101,25 @@ QGraphicsItem* PacketRenderer::render( qreal x, qreal y,
   }
 
   float relativeLength = packetHeader->len / static_cast<float>( _mtu );
-  relativeLength       = relativeLength > 1.0f ? 1.0f : relativeLength;
+  relativeLength       = relativeLength > 1.0f  ? 1.0f  : relativeLength;
 
   QColor packetColour = this->getColour( relativeLength );
 
-  QGraphicsRectItem* renderedPacket = new QGraphicsRectItem( x, y,
-                                                             _packetWidth, _packetHeight );
+  float width  = _packetWidth  * relativeLength;
+  float height = _packetHeight * relativeLength;
+
+  // Ensure that at least one pixel is draw. Else, the graphics items will
+  // become too small for the scene view.
+  if( width < 1.f )
+    width = 1.f;
+
+  if( height < 1.f )
+    height = 1.f;
+
+  QGraphicsRectItem* renderedPacket = new QGraphicsRectItem( x + 0.5f * ( _packetWidth - width ),
+                                                             y + 0.5f * ( _packetHeight - height ),
+                                                             width,
+                                                             height );
 
   renderedPacket->setPen( QPen( Qt::NoPen ) );
   renderedPacket->setBrush( packetColour );
