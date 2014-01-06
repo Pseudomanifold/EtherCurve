@@ -33,3 +33,18 @@ TARGET_LINK_LIBRARIES(
   ethercurve
   ${PCAP_LIBRARIES}
 )
+
+IF( NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR )
+
+  SET( RESOURCE_FILES
+    Qualitative1.csv
+    Qualitative2.csv
+  )
+
+  FILE(
+    COPY        ${RESOURCE_FILES}
+    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+  )
+
+  MESSAGE( STATUS "Resource files setup done" )
+ENDIF()
