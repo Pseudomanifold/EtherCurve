@@ -3,8 +3,8 @@
 
 #include <QColor>
 #include <QGraphicsItem>
-#include <QMap>
 #include <QObject>
+#include <QList>
 
 #include <pcap/pcap.h>
 
@@ -33,7 +33,7 @@ private:
   int _mtu;
 
   QColor getColour( float value ) const;
-  QMap<float, QColor> _colourMap;
+  QList<QColor> _colours;
 };
 
 #endif

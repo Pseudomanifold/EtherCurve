@@ -20,7 +20,7 @@ PacketRenderer::PacketRenderer( QObject* parent )
     _packetWidth( 0.f ),
     _packetHeight( 0.f )
 {
-  QFile input( "../CoolToWarm.csv" );
+  QFile input( "../Qualitative1.csv" );
   input.open( QFile::ReadOnly );
 
   QString glob      = input.readAll();
@@ -31,18 +31,16 @@ PacketRenderer::PacketRenderer( QObject* parent )
     QStringList tokens = line.split( "," );
 
     // Sanity check
-    if( tokens.size() != 4 )
+    if( tokens.size() != 3 )
       break;
 
-    float value = tokens[0].toFloat();
-    float r     = tokens[1].toFloat();
-    float g     = tokens[2].toFloat();
-    float b     = tokens[3].toFloat();
+    float r     = tokens[0].toInt();
+    float g     = tokens[1].toInt();
+    float b     = tokens[2].toInt();
 
-    _colourMap.insert( value,
-                       QColor::fromRgbF( r,
-                                         g,
-                                         b ) );
+    _colours.append( QColor::fromRgb( r,
+                                      g,
+                                      b ) );
   }
 }
 
@@ -83,27 +81,27 @@ QGraphicsItem* PacketRenderer::render( qreal x, qreal y,
   if( ntohs( ethernetHeader->ether_type ) != ETHERTYPE_IP )
     return( 0 );
 
+  QColor packetColour;
+
   const iphdr* ipHeader = reinterpret_cast<const iphdr*>( packetData + sizeof( ether_header ) );
   switch( ipHeader->protocol )
   {
   case IPPROTO_TCP:
-    qDebug() << "TCP";
+    packetColour = _colours[0];
     break;
   case IPPROTO_UDP:
-    qDebug() << "UDP";
+    packetColour = _colours[1];
     break;
   case IPPROTO_ICMP:
-    qDebug() << "ICMP";
+    packetColour = _colours[2];
     break;
   default:
-    qDebug() << "Unknown: " << ipHeader->protocol;
+    packetColour = _colours[3];
     break;
   }
 
   float relativeLength = packetHeader->len / static_cast<float>( _mtu );
   relativeLength       = relativeLength > 1.0f  ? 1.0f  : relativeLength;
-
-  QColor packetColour = this->getColour( relativeLength );
 
   float width  = _packetWidth  * relativeLength;
   float height = _packetHeight * relativeLength;
@@ -125,16 +123,6 @@ QGraphicsItem* PacketRenderer::render( qreal x, qreal y,
   renderedPacket->setBrush( packetColour );
 
   return( renderedPacket );
-}
-
-// ---------------------------------------------------------------------
-
-QColor PacketRenderer::getColour( float value ) const
-{
-  QMap<float,QColor>::const_iterator pos = _colourMap.lowerBound( value );
-
-  // TODO: Interpolate between the best-matching colours here.
-  return( pos.value() );
 }
 
 // ---------------------------------------------------------------------
