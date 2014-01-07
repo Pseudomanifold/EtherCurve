@@ -62,10 +62,7 @@ PacketRenderer::PacketRenderer( const QString& colourFile,
 
     // Sanity check
     if( tokens.size() != 3 )
-    {
-      qFatal( "Invalid colour file format" );
       break;
-    }
 
     float r     = tokens[0].toInt();
     float g     = tokens[1].toInt();
