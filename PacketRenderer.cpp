@@ -24,6 +24,7 @@
 
 #include "PacketRenderer.h"
 
+#include <cmath>
 #include <QFile>
 #include <QGraphicsRectItem>
 #include <QPen>
