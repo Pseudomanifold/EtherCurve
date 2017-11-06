@@ -1,8 +1,10 @@
 CMAKE_MINIMUM_REQUIRED( VERSION 2.8.9 )
 PROJECT( EtherCurve )
 
+SET( CXX_STANDARD 11 )
+
 IF( CMAKE_COMPILER_IS_GNUCXX )
-  SET( CMAKE_CXX_FLAGS "-Werror -Wall -pedantic -std=c++0x" )
+  SET( CMAKE_CXX_FLAGS "-Werror -Wall -pedantic" )
 ENDIF()
 
 SET( CMAKE_MODULE_PATH
